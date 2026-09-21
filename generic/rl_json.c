@@ -135,7 +135,7 @@ static const char *extension_str[] = {
 	(char*)NULL
 };
 
-static int new_json_value_from_list(Tcl_Interp* interp, int objc, Tcl_Obj *const objv[], Tcl_Obj** res);
+static int new_json_value_from_list(Tcl_Interp* interp, Tcl_Size objc, Tcl_Obj *const objv[], Tcl_Obj** res);
 static int NRforeach_next_loop_bottom(ClientData cdata[], Tcl_Interp* interp, int retcode);
 static int json_pretty_dbg(Tcl_Interp* interp, Tcl_Obj* json, Tcl_Obj* indent, Tcl_Obj* pad, Tcl_DString* ds);
 
@@ -1117,7 +1117,7 @@ int resolve_path(Tcl_Interp* interp, Tcl_Obj* src, Tcl_Obj *const pathv[], Tcl_S
 				{
 					Tcl_Size	ac, index_str_len;
 					int			ok=1;
-					long		index;
+					Tcl_Size	index;
 					const char*	index_str;
 					char*		end;
 					Tcl_Obj**	av;
@@ -1125,7 +1125,7 @@ int resolve_path(Tcl_Interp* interp, Tcl_Obj* src, Tcl_Obj *const pathv[], Tcl_S
 					TEST_OK_LABEL(done, retval, Tcl_ListObjGetElements(interp, val, &ac, &av));
 					//fprintf(stderr, "descending into array of length %d\n", ac);
 
-					if (Tcl_GetLongFromObj(NULL, step, &index) != TCL_OK) {
+					if (Tcl_GetSizeIntFromObj(NULL, step, &index) != TCL_OK) {
 						// Index isn't an integer, check for end(-int)?
 						index_str = Tcl_GetStringFromObj(step, &index_str_len);
 						if (index_str_len < 3 || strncmp("end", index_str, 3) != 0) {
@@ -1301,7 +1301,7 @@ int convert_to_tcl(Tcl_Interp* interp, Tcl_Obj* obj, Tcl_Obj** out) //{{{
 }
 
 //}}}
-static int _new_object(Tcl_Interp* interp, int objc, Tcl_Obj *const objv[], Tcl_Obj** res) //{{{
+static int _new_object(Tcl_Interp* interp, Tcl_Size objc, Tcl_Obj *const objv[], Tcl_Obj** res) //{{{
 {
 	int			i, retval=TCL_OK;
 	Tcl_Size	ac;
@@ -1663,7 +1663,8 @@ int json_pretty(Tcl_Interp* interp, Tcl_Obj* json, Tcl_Obj* indent, Tcl_Obj* pad
 	switch (type) {
 		case JSON_OBJECT: //{{{
 			{
-				int				done, max=0;
+		  int				done; 
+		                Tcl_Size max=0;
 				Tcl_Size		k_len, size;
 				Tcl_DictSearch	search;
 				Tcl_Obj*		k;
@@ -1808,7 +1809,8 @@ static int json_pretty_dbg(Tcl_Interp* interp, Tcl_Obj* json, Tcl_Obj* indent, T
 	switch (type) {
 		case JSON_OBJECT: //{{{
 			{
-				int				done, max=0;
+		                int			done;
+		                Tcl_Size max=0;
 				Tcl_Size		k_len, size;
 				Tcl_DictSearch	search;
 				Tcl_Obj*		k;
@@ -3218,7 +3220,7 @@ finally:
 }
 
 //}}}
-static int jsonString(ClientData cdata, Tcl_Interp* interp, int objc, Tcl_Obj *const objv[]) //{{{
+static int jsonString(ClientData cdata, Tcl_Interp* interp, Tcl_Size objc, Tcl_Obj *const objv[]) //{{{
 {
 #if DEDUP
 	struct interp_cx*	l = (struct interp_cx*)cdata;
@@ -3245,7 +3247,7 @@ finally:
 }
 
 //}}}
-static int jsonNumber(ClientData cdata, Tcl_Interp* interp, int objc, Tcl_Obj *const objv[]) //{{{
+static int jsonNumber(ClientData cdata, Tcl_Interp* interp, Tcl_Size objc, Tcl_Obj *const objv[]) //{{{
 {
 	Tcl_Obj*			resolved = NULL;
 	enum json_types		resolved_type;
@@ -3287,7 +3289,7 @@ finally:
 }
 
 //}}}
-static int jsonObject(ClientData cdata, Tcl_Interp* interp, int objc, Tcl_Obj *const objv[]) //{{{
+static int jsonObject(ClientData cdata, Tcl_Interp* interp, Tcl_Size objc, Tcl_Obj *const objv[]) //{{{
 {
 	(void)cdata;
 	int			retval = TCL_OK;
@@ -3309,7 +3311,7 @@ finally:
 }
 
 //}}}
-static int jsonArray(ClientData cdata, Tcl_Interp* interp, int objc, Tcl_Obj *const objv[]) //{{{
+static int jsonArray(ClientData cdata, Tcl_Interp* interp, Tcl_Size objc, Tcl_Obj *const objv[]) //{{{
 {
 	(void)cdata;
 	Tcl_Size	ac;
@@ -3914,7 +3916,7 @@ static int jsonMerge(ClientData cdata, Tcl_Interp* interp, int objc, Tcl_Obj *co
 //}}}
 #endif
 
-static int new_json_value_from_list(Tcl_Interp* interp, int objc, Tcl_Obj *const objv[], Tcl_Obj** res) //{{{
+static int new_json_value_from_list(Tcl_Interp* interp, Tcl_Size objc, Tcl_Obj *const objv[], Tcl_Obj** res) //{{{
 {
 	struct interp_cx*	l = Tcl_GetAssocData(interp, "rl_json", NULL);
 	Tcl_Obj*			tmp = NULL;
