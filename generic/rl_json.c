@@ -21,9 +21,26 @@ static Tcl_Config cfg[] = {
 #define ENSEMBLE	0
 #endif
 
+#ifdef _WIN32
+#include <io.h>
+#include <fcntl.h>
+#include <stdlib.h>
+#include <sys/stat.h>
+static int mkstemp(char* template) {
+  int fd;
+  _mktemp_s(template,strlen(template) + 1);
+  fd=_open(template,_O_CREAT | _O_EXCL | _O_RDWR,_S_IREAD | _S_IWRITE);
+  return fd;
+}
+#define fdopen _fdopen
+#define unlink _unlink
+#endif 
+
 #if defined(_WIN32)
 #define snprintf _snprintf
 #endif
+
+
 
 static const char* dyn_prefix[] = {
 	NULL,	// JSON_UNDEF
@@ -594,7 +611,7 @@ static void append_json_string(const struct serialize_context* scx, Tcl_Obj* obj
 	while (p < e) {
 		adv = Tcl_UtfToUniChar(p, &c);
 		if (unlikely(c <= 0x1f || c == '\\' || c == '"')) {
-			Tcl_DStringAppend(ds, chunk, p-chunk);
+			Tcl_DStringAppend(ds, chunk, (int)(p-chunk));
 			switch (c) {
 				case '"':	Tcl_DStringAppend(ds, "\\\"", 2); break;
 				case '\\':	Tcl_DStringAppend(ds, "\\\\", 2); break;
@@ -617,7 +634,7 @@ static void append_json_string(const struct serialize_context* scx, Tcl_Obj* obj
 	}
 
 	if (likely(p > chunk))
-		Tcl_DStringAppend(ds, chunk, p-chunk);
+		Tcl_DStringAppend(ds, chunk, (int)(p-chunk));
 
 	Tcl_DStringAppend(ds, "\"", 1);
 }
@@ -3436,60 +3453,76 @@ static int jsonNRForeach(ClientData cdata, Tcl_Interp* interp, int objc, Tcl_Obj
 }
 
 //}}}
+#if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-function"
+#endif
 static int jsonForeach(ClientData cdata, Tcl_Interp* interp, int objc, Tcl_Obj *const objv[]) //{{{
 {
 	return Tcl_NRCallObjProc(interp, jsonNRForeach, cdata, objc, objv);
 }
 
 //}}}
+#if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic pop
+#endif
 static int jsonNRLmap(ClientData cdata, Tcl_Interp* interp, int objc, Tcl_Obj *const objv[]) //{{{
 {
 	return _foreach(cdata, interp, objc, objv, COLLECT_LIST);
 }
 
 //}}}
+#if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-function"
+#endif
 static int jsonLmap(ClientData cdata, Tcl_Interp* interp, int objc, Tcl_Obj *const objv[]) //{{{
 {
 	return Tcl_NRCallObjProc(interp, jsonNRLmap, cdata, objc, objv);
 }
 
 //}}}
+#if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic pop
+#endif
 static int jsonNRAmap(ClientData cdata, Tcl_Interp* interp, int objc, Tcl_Obj *const objv[]) //{{{
 {
 	return _foreach(cdata, interp, objc, objv, COLLECT_ARRAY);
 }
 
 //}}}
+#if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-function"
+#endif
 static int jsonAmap(ClientData cdata, Tcl_Interp* interp, int objc, Tcl_Obj *const objv[]) //{{{
 {
 	return Tcl_NRCallObjProc(interp, jsonNRAmap, cdata, objc, objv);
 }
 
 //}}}
+#if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic pop
+#endif
 static int jsonNROmap(ClientData cdata, Tcl_Interp* interp, int objc, Tcl_Obj *const objv[]) //{{{
 {
 	return _foreach(cdata, interp, objc, objv, COLLECT_OBJECT);
 }
 
 //}}}
+#if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-function"
+#endif
 static int jsonOmap(ClientData cdata, Tcl_Interp* interp, int objc, Tcl_Obj *const objv[]) //{{{
 {
 	return Tcl_NRCallObjProc(interp, jsonNROmap, cdata, objc, objv);
 }
 
 //}}}
+#if defined(__GNUC__) || defined(__clang__)
 #pragma GCC diagnostic pop
+#endif
 static int jsonFreeCache(ClientData cdata, Tcl_Interp* interp, int objc, Tcl_Obj *const objv[]) //{{{
 {
 #if DEDUP
@@ -3743,7 +3776,7 @@ static int jsonValid(ClientData cdata, Tcl_Interp* interp, int objc, Tcl_Obj *co
 		TEST_OK_LABEL(finally, retval, Tcl_DictObjPut(interp, details_obj, k, v));
 
 		replace_tclobj(&k, get_string(l, "char_ofs", 8));
-		replace_tclobj(&v, Tcl_NewIntObj(details.char_ofs));
+		replace_tclobj(&v, Tcl_NewIntObj((int)details.char_ofs));
 		TEST_OK_LABEL(finally, retval, Tcl_DictObjPut(interp, details_obj, k, v));
 
 		if (NULL == Tcl_ObjSetVar2(interp, detailsvar, NULL, details_obj, TCL_LEAVE_ERR_MSG)) {
@@ -4142,7 +4175,7 @@ static int jsonNRObj(ClientData cdata, Tcl_Interp* interp, int objc, Tcl_Obj *co
 				CHECK_ARGS("key");
 
 				TEST_OK(Tcl_GetIndexFromObjStruct(interp, objv[A_KEY], tstr, sizeof(struct teststring), "key", TCL_EXACT, &idx));
-				if (!tstr[idx].len) tstr[idx].len = strlen(tstr[idx].str);
+				if (!tstr[idx].len) tstr[idx].len = (int)strlen(tstr[idx].str);
 				Tcl_Obj*	newstr = Tcl_NewStringObj(tstr[idx].str, tstr[idx].len);
 				Tcl_SetObjResult(interp, newstr);
 			}
@@ -4247,7 +4280,11 @@ static int checkmem(ClientData cdata, Tcl_Interp* interp, int objc, Tcl_Obj *con
 	return Tcl_NREvalObj(interp, objv[A_CMD], 0);
 
 finally:
-	if (fd != -1) {close(fd); SUPPRESS_DEADSTORE fd=-1;}
+#ifdef _WIN32
+	if (fd != -1) {_close(fd); SUPPRESS_DEADSTORE fd=-1;}
+#else
+    if (fd != -1) {close(fd); SUPPRESS_DEADSTORE fd=-1;}
+#endif
 	if (h_before) {fclose(h_before); h_before=NULL;}
 	return retcode;
 }
@@ -4287,7 +4324,8 @@ static int NRcheckmem_bottom(ClientData cdata[], Tcl_Interp* interp, int retcode
 		int		new, len;
 
 		if (strstr(line, " @ ./") == NULL) continue;
-		len = strnlen(line, 1024);
+		len = (int)strnlen(line, 1024);
+
 		if (line[len-1] == '\n') len--;
 		Tcl_CreateHashEntry(&seen, line, &new);
 	}
@@ -4299,7 +4337,8 @@ static int NRcheckmem_bottom(ClientData cdata[], Tcl_Interp* interp, int retcode
 		int		new, len;
 
 		if (strstr(line, " @ ./") == NULL) continue;
-		len = strnlen(line, 1024);
+		len =(int)strnlen(line, 1024);
+
 		if (line[len-1] == '\n') len--;
 		Tcl_CreateHashEntry(&seen, line, &new);
 		if (new) {
@@ -4318,7 +4357,11 @@ finally:
 	release_tclobj(&varname);
 	if (h_before) {fclose(h_before); h_before = NULL;}
 	if (h_after)  {fclose(h_after);  h_after = NULL;}
-	if (fd != -1) {close(fd); SUPPRESS_DEADSTORE fd = -1;}
+#ifdef _WIN32
+	if (fd != -1) {_close(fd); SUPPRESS_DEADSTORE fd = -1;}
+#else
+    if (fd != -1) {close(fd); SUPPRESS_DEADSTORE fd = -1;}
+#endif
 	Tcl_DeleteHashTable(&seen);
 
 	return retcode;

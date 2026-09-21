@@ -6,6 +6,8 @@
 #endif
 
 #include <tcl.h>
+#include "tcl_compatibility_8_9.h"
+
 #include <stdint.h>		// Stubs API uses stdint types
 
 #ifndef TCL_SIZE_MODIFIER
