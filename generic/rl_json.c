@@ -1,5 +1,10 @@
 #include "rl_jsonInt.h"
 
+#if TCL_MAJOR_VERSION >= 9
+#define HAVE_TCL_GETNUMBERFROMOBJ 1
+#endif
+
+
 TCL_DECLARE_MUTEX(g_config_mutex)
 Tcl_Obj*		g_packagedir = NULL;
 Tcl_Obj*		g_includedir = NULL;
