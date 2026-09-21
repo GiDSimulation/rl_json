@@ -115,7 +115,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;_CRT_SECURE_NO_WARNINGS;RL_JSON_EXPORTS;USE_TCL_STUBS;USE_TCLOO_STUBS;TIP445_SHIM;PACKAGE_NAME="rl_json";PACKAGE_VERSION="0.17";Tcl_GetBytesFromObj;RL_JSON_LIBRARY_PATH_INSTALL="";RL_JSON_INCLUDE_PATH_INSTALL="";RL_JSON_PACKAGE_PATH_INSTALL="";RL_JSON_LIBRARY="";RL_JSON_STUBLIB="";RL_JSON_HEADER="";BUILD_rl_json;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;_CRT_SECURE_NO_WARNINGS;RL_JSON_EXPORTS;USE_TCL_STUBS;USE_TCLOO_STUBS;TIP445_SHIM;PACKAGE_NAME="rl_json";PACKAGE_VERSION="0.17";RL_JSON_LIBRARY_PATH_INSTALL="";RL_JSON_INCLUDE_PATH_INSTALL="";RL_JSON_PACKAGE_PATH_INSTALL="";RL_JSON_LIBRARY="";RL_JSON_STUBLIB="";RL_JSON_HEADER="";BUILD_rl_json;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <AdditionalIncludeDirectories>..\..\tcltk\TclTk8.6.13\x$(PlatformArchitecture)\include;..\generic;..\teabase</AdditionalIncludeDirectories>
@@ -133,7 +133,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;_CRT_SECURE_NO_WARNINGS;RL_JSON_EXPORTS;USE_TCL_STUBS;USE_TCLOO_STUBS;TIP445_SHIM;PACKAGE_NAME="rl_json";PACKAGE_VERSION="0.17";Tcl_GetBytesFromObj;RL_JSON_LIBRARY_PATH_INSTALL="";RL_JSON_INCLUDE_PATH_INSTALL="";RL_JSON_PACKAGE_PATH_INSTALL="";RL_JSON_LIBRARY="";RL_JSON_STUBLIB="";RL_JSON_HEADER="";BUILD_rl_json;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;_CRT_SECURE_NO_WARNINGS;RL_JSON_EXPORTS;USE_TCL_STUBS;USE_TCLOO_STUBS;TIP445_SHIM;PACKAGE_NAME="rl_json";PACKAGE_VERSION="0.17";RL_JSON_LIBRARY_PATH_INSTALL="";RL_JSON_INCLUDE_PATH_INSTALL="";RL_JSON_PACKAGE_PATH_INSTALL="";RL_JSON_LIBRARY="";RL_JSON_STUBLIB="";RL_JSON_HEADER="";BUILD_rl_json;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <AdditionalIncludeDirectories>..\..\tcltk\TclTk8.6.13\x$(PlatformArchitecture)\include;..\generic;..\teabase</AdditionalIncludeDirectories>
@@ -153,7 +153,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <Optimization>Full</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;_CRT_SECURE_NO_WARNINGS;RL_JSON_EXPORTS;USE_TCL_STUBS;USE_TCLOO_STUBS;PACKAGE_NAME="rl_json";PACKAGE_VERSION="0.17";TIP445_SHIM;Tcl_GetBytesFromObj;RL_JSON_LIBRARY_PATH_INSTALL="";RL_JSON_INCLUDE_PATH_INSTALL="";RL_JSON_PACKAGE_PATH_INSTALL="";RL_JSON_LIBRARY="";RL_JSON_STUBLIB="";RL_JSON_HEADER="";BUILD_rl_json;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;_CRT_SECURE_NO_WARNINGS;RL_JSON_EXPORTS;USE_TCL_STUBS;USE_TCLOO_STUBS;PACKAGE_NAME="rl_json";PACKAGE_VERSION="0.17";TIP445_SHIM;RL_JSON_LIBRARY_PATH_INSTALL="";RL_JSON_INCLUDE_PATH_INSTALL="";RL_JSON_PACKAGE_PATH_INSTALL="";RL_JSON_LIBRARY="";RL_JSON_STUBLIB="";RL_JSON_HEADER="";BUILD_rl_json;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <AdditionalIncludeDirectories>..\..\tcltk\TclTk8.6.13\x$(PlatformArchitecture)\include;..\generic;..\teabase</AdditionalIncludeDirectories>
@@ -185,7 +185,7 @@ copy "$(TargetPath)" ..\..\..\scripts\rl_json\%DLL_PREFIX%rl_json_$(PlatformArch
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <Optimization>Full</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;_CRT_SECURE_NO_WARNINGS;RL_JSON_EXPORTS;USE_TCL_STUBS;USE_TCLOO_STUBS;PACKAGE_NAME="rl_json";PACKAGE_VERSION="0.17";TIP445_SHIM;Tcl_GetBytesFromObj;RL_JSON_LIBRARY_PATH_INSTALL="";RL_JSON_INCLUDE_PATH_INSTALL="";RL_JSON_PACKAGE_PATH_INSTALL="";RL_JSON_LIBRARY="";RL_JSON_STUBLIB="";RL_JSON_HEADER="";BUILD_rl_json;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;_CRT_SECURE_NO_WARNINGS;RL_JSON_EXPORTS;USE_TCL_STUBS;USE_TCLOO_STUBS;PACKAGE_NAME="rl_json";PACKAGE_VERSION="0.17";TIP445_SHIM;RL_JSON_LIBRARY_PATH_INSTALL="";RL_JSON_INCLUDE_PATH_INSTALL="";RL_JSON_PACKAGE_PATH_INSTALL="";RL_JSON_LIBRARY="";RL_JSON_STUBLIB="";RL_JSON_HEADER="";BUILD_rl_json;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <AdditionalIncludeDirectories>..\..\tcltk\TclTk8.6.13\x$(PlatformArchitecture)\include;..\generic;..\teabase</AdditionalIncludeDirectories>
